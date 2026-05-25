@@ -1,0 +1,67 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+
+  /* Light Theme Colors - High Contrast */
+  --color-background: hsl(0 0% 100%); /* Pure White */
+  --color-foreground: hsl(0 0% 5%);  /* Almost Black */
+  
+  --color-card: hsl(0 0% 98%);
+  --color-card-foreground: hsl(0 0% 10%);
+  
+  --color-primary: hsl(265 85% 55%);
+  --color-primary-foreground: hsl(0 0% 100%);
+  
+  --color-secondary: hsl(240 5% 90%);
+  --color-secondary-foreground: hsl(0 0% 10%);
+  
+  --color-muted: hsl(240 5% 90%);
+  --color-muted-foreground: hsl(240 5% 40%);
+  
+  --color-border: hsl(240 5% 85%);
+  --color-input: hsl(240 5% 85%);
+  --color-ring: hsl(265 85% 55%);
+}
+
+.dark {
+  /* Dark Theme - High Contrast */
+  --color-background: hsl(240 10% 3%);
+  --color-foreground: hsl(0 0% 95%);
+  
+  --color-card: hsl(240 10% 7%);
+  --color-card-foreground: hsl(0 0% 95%);
+  
+  --color-primary: hsl(265 85% 60%);
+  --color-primary-foreground: hsl(0 0% 100%);
+  
+  --color-secondary: hsl(240 10% 12%);
+  --color-secondary-foreground: hsl(0 0% 95%);
+  
+  --color-muted: hsl(240 10% 12%);
+  --color-muted-foreground: hsl(240 10% 60%);
+  
+  --color-border: hsl(240 10% 15%);
+  --color-input: hsl(240 10% 15%);
+  --color-ring: hsl(265 85% 60%);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    min-height: 100vh;
+  }
+}
+
+/* Glass effect that works on both dark and light modes */
+.glass {
+  @apply bg-white/80 dark:bg-black/40 backdrop-blur-lg border border-neutral-200 dark:border-neutral-800 shadow-sm;
+}
+
+.gradient-text {
+  @apply bg-clip-text text-transparent bg-linear-to-r from-violet-600 to-orange-600 dark:from-violet-400 dark:to-orange-400;
+}
