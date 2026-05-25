@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { 
   CheckCircle2, Lightbulb, Target, TrendingUp, AlertTriangle, 
-  Briefcase, Star, Download, PlusCircle
+  Briefcase, Star, Download, PlusCircle, Clipboard
 } from "lucide-react"
 import { JobMatcher } from "./job-matcher"
 import { cn } from "@/lib/utils"
