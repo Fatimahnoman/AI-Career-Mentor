@@ -9,6 +9,7 @@ import { useSession } from "next-auth/react"
 export default function SettingsPage() {
   const { theme, setTheme } = useTheme()
   const { data: session, update } = useSession()
+  const [mounted, setMounted] = useState(false)
   
   const [name, setName] = useState(session?.user?.name || "")
   const [currentPassword, setCurrentPassword] = useState("")
@@ -17,6 +18,11 @@ export default function SettingsPage() {
   
   // Toast state
   const [toast, setToast] = useState<{ message: string; type: "success" | "error" } | null>(null)
+
+  // Prevent hydration mismatch
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   const showToast = (message: string, type: "success" | "error") => {
     setToast({ message, type })
@@ -62,6 +68,8 @@ export default function SettingsPage() {
     }
     setLoading(false)
   }
+
+  if (!mounted) return null
 
   return (
     <div className="max-w-4xl space-y-10">
