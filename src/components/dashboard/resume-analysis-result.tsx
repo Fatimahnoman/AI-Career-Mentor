@@ -3,9 +3,10 @@
 import { useState } from "react"
 import { 
   CheckCircle2, Lightbulb, Target, TrendingUp, AlertTriangle, 
-  Briefcase, Star, Clipboard, PlusCircle
+  Briefcase, Star, Download, PlusCircle, Clipboard
 } from "lucide-react"
 import { JobMatcher } from "./job-matcher"
+import { cn } from "@/lib/utils"
 
 type AnalysisData = {
   skills: string[]
@@ -21,8 +22,6 @@ type AnalysisData = {
 export function ResumeAnalysisResult({ data }: { data: AnalysisData }) {
   const [editedText, setEditedText] = useState(data.originalText || "")
   const [copied, setCopied] = useState(false)
-
-  console.log("ResumeAnalysisResult Data:", data);
 
   const applySuggestion = (suggestion: string) => {
     setEditedText(prev => prev + "
@@ -45,7 +44,7 @@ ${data.careerSuggestions.join("
 
   return (
     <div className="space-y-8">
-      {/* ... (Existing Edit Section) ... */}
+      {/* Editable Resume Section */}
       <div className="glass rounded-3xl p-8 border border-primary/20">
         <div className="mb-4">
           <h3 className="text-xl font-black">Edit Your Resume</h3>
@@ -73,7 +72,7 @@ ${data.careerSuggestions.join("
           </div>
         </div>
 
-        {/* Career Suggestions */}
+        {/* Career Suggestions with Apply Button */}
         <div className="md:col-span-2 rounded-3xl glass p-8 bg-linear-to-br from-purple-500/5 to-transparent border-purple-500/10">
           <div className="flex justify-between items-center mb-8">
             <h3 className="text-2xl font-black text-purple-600 flex items-center gap-3">
@@ -109,7 +108,6 @@ ${data.careerSuggestions.join("
         </div>
       </div>
       
-      {/* Job Matcher */}
       <div className="glass rounded-3xl p-8 border border-primary/20">
         <JobMatcher recommendedRoles={data.recommendedRoles} />
       </div>
