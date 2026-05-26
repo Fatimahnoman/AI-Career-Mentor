@@ -6,7 +6,6 @@ import {
   Briefcase, Star, Clipboard, PlusCircle
 } from "lucide-react"
 import { JobMatcher } from "./job-matcher"
-import { cn } from "@/lib/utils"
 
 type AnalysisData = {
   skills: string[]
@@ -20,13 +19,25 @@ type AnalysisData = {
 }
 
 export function ResumeAnalysisResult({ data }: { data: AnalysisData }) {
+  const [editedText, setEditedText] = useState(data.originalText || "")
   const [copied, setCopied] = useState(false)
 
+  console.log("ResumeAnalysisResult Data:", data);
+
+  const applySuggestion = (suggestion: string) => {
+    setEditedText(prev => prev + "
+
+" + suggestion)
+  }
+
   const copyToClipboard = () => {
-    const nl = String.fromCharCode(10);
-    const text = "Summary: " + (data.summary || "") + 
-                 nl + nl + "Strengths: " + data.strengths.join(", ") + 
-                 nl + nl + "Suggestions:" + nl + data.careerSuggestions.join(nl);
+    const text = `Summary: ${data.summary || ""}
+
+Strengths: ${data.strengths.join(", ")}
+
+Suggestions:
+${data.careerSuggestions.join("
+")}`
     navigator.clipboard.writeText(text)
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
@@ -34,6 +45,19 @@ export function ResumeAnalysisResult({ data }: { data: AnalysisData }) {
 
   return (
     <div className="space-y-8">
+      {/* ... (Existing Edit Section) ... */}
+      <div className="glass rounded-3xl p-8 border border-primary/20">
+        <div className="mb-4">
+          <h3 className="text-xl font-black">Edit Your Resume</h3>
+          <p className="text-xs text-muted-foreground mt-1">Copy the improvements or edit your resume text here.</p>
+        </div>
+        <textarea 
+          value={editedText}
+          onChange={(e) => setEditedText(e.target.value)}
+          className="w-full h-64 p-4 rounded-xl bg-muted/30 text-sm font-medium border border-border resize-none focus:ring-2 focus:ring-primary/20"
+        />
+      </div>
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 animate-in fade-in slide-in-from-bottom-8 duration-700">
         
         {/* Recommended Roles */}
@@ -71,6 +95,12 @@ export function ResumeAnalysisResult({ data }: { data: AnalysisData }) {
                   <div className="p-3 bg-purple-500/10 rounded-xl text-purple-600">
                     <Briefcase className="h-5 w-5" />
                   </div>
+                  <button 
+                    onClick={() => applySuggestion(suggestion)}
+                    className="text-xs font-bold bg-purple-100 dark:bg-purple-900/30 text-purple-600 px-3 py-1.5 rounded-lg hover:bg-purple-200 flex items-center gap-1"
+                  >
+                    <PlusCircle className="h-3 w-3" /> Apply
+                  </button>
                 </div>
                 <p className="text-sm font-bold leading-relaxed text-muted-foreground">{suggestion}</p>
               </div>
@@ -79,6 +109,7 @@ export function ResumeAnalysisResult({ data }: { data: AnalysisData }) {
         </div>
       </div>
       
+      {/* Job Matcher */}
       <div className="glass rounded-3xl p-8 border border-primary/20">
         <JobMatcher recommendedRoles={data.recommendedRoles} />
       </div>
