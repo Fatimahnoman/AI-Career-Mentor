@@ -24,19 +24,14 @@ export function ResumeAnalysisResult({ data }: { data: AnalysisData }) {
   const [copied, setCopied] = useState(false)
 
   const applySuggestion = (suggestion: string) => {
-    setEditedText(prev => prev + "
-
-" + suggestion)
+    setEditedText(prev => prev + String.fromCharCode(10) + String.fromCharCode(10) + suggestion)
   }
 
   const copyToClipboard = () => {
-    const text = `Summary: ${data.summary || ""}
-
-Strengths: ${data.strengths.join(", ")}
-
-Suggestions:
-${data.careerSuggestions.join("
-")}`
+    const nl = String.fromCharCode(10);
+    const text = "Summary: " + (data.summary || "") + 
+                 nl + nl + "Strengths: " + data.strengths.join(", ") + 
+                 nl + nl + "Suggestions:" + nl + data.careerSuggestions.join(nl);
     navigator.clipboard.writeText(text)
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
